@@ -20,24 +20,35 @@ public class Torus : MonoBehaviour
         {
             // Rotate once around to make the overall circle of the torus
             float torusAngleRad = i / (float)noOfPoints * Mathf.PI * 2;
-            
+
             var torusY = transform.position.y;
-            var torusX = transform.position.x + Mathf.Cos(torusAngleRad) * torusOverallRadius;
-            var torusZ = transform.position.z + Mathf.Sin(torusAngleRad) * torusOverallRadius;
+            var torusX =
+                transform.position.x
+                + Mathf.Cos(torusAngleRad) * torusOverallRadius;
+            var torusZ =
+                transform.position.z
+                + Mathf.Sin(torusAngleRad) * torusOverallRadius;
             var circlePoint = new Vector3(torusX, torusY, torusZ);
-            
-            // Make a rotation value that goes through fully per turn 
+
+            // Make a rotation value that goes through fully per turn
             float curlAngleRad =
                 i % pointsPerTurn / (float)pointsPerTurn * Mathf.PI * 2;
 
             // Use the tangent of the circle at the current point as the axis
             // for our rotation
-            var circleTangent = Vector3.Cross(transform.up, circlePoint - transform.position);
+            var circleTangent = Vector3.Cross(
+                transform.up,
+                circlePoint - transform.position
+            );
             Gizmos.DrawRay(circlePoint, circleTangent.normalized);
-            var rotation = Quaternion.AngleAxis(curlAngleRad * Mathf.Rad2Deg, circleTangent.normalized);
+            var rotation = Quaternion.AngleAxis(
+                curlAngleRad * Mathf.Rad2Deg,
+                circleTangent.normalized
+            );
 
             // Rotate the up vector by our rotation and give it the correct radial distance to get the new point
-            var point = circlePoint + (rotation * transform.up * innerCurlRadius);
+            var point =
+                circlePoint + (rotation * transform.up * innerCurlRadius);
             points[i] = point;
         }
 
